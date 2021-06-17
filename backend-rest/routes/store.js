@@ -14,4 +14,16 @@ routes.get('/', async(req,res) => {
     }
 })
 
+//get a store
+routes.get('/:id', async(req,res) => {
+    try {
+        const {id} = req.params;
+        const store = await poolStore.query('SELECT * FROM store WHERE store_id = $1',[id]);
+        res.json(store.rows[0]);
+        console.log('Get API store success');
+    } catch (err) {
+        console.error(err.message);
+    }
+})
+
 module.exports = routes;
