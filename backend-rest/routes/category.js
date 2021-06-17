@@ -55,4 +55,16 @@ routes.put('/:id', async(req,res) => {
     }
 })
 
+//delete a category
+routes.delete('/:id', async(req,res) => {
+    try {
+        const {id} = req.params;
+        const delCategory = await poolCategory.query('DELETE FROM category WHERE category_id = $1',[id]);
+        res.json('category was success delete');
+        console.log('Delete API Category success');
+    } catch (err) {
+        console.error(err.message);
+    }
+})
+
 module.exports = routes;
