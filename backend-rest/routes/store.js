@@ -26,4 +26,18 @@ routes.get('/:id', async(req,res) => {
     }
 })
 
+//create a store
+routes.post('/', async(req,res) => {
+    try {
+        const value = req.body;
+        const newStore = await poolStore.query(
+            'INSERT INTO store (name, description, rating) VALUES ($1, $2, $3) RETURNING *', 
+            [value.name, value.description, value.rating]);
+        res.json(newStore.rows[0]);
+        console.log('Post API store success');
+    } catch (err) {
+        console.error(err.message);
+    }
+})
+
 module.exports = routes;
