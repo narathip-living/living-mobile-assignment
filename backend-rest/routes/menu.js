@@ -14,4 +14,16 @@ routes.get('/', async(req,res) => {
     }
 })
 
+//get a menu
+routes.get('/:id', async(req,res) => {
+    try {
+        const {id} = req.params;
+        const menu = await poolMenu.query('SELECT * FROM menu WHERE menu_id = $1',[id]);
+        res.json(menu.rows[0]);
+        console.log('Get API menu success');
+    } catch (err) {
+        console.error(err.message);
+    }
+})
+
 module.exports = routes;
