@@ -40,4 +40,19 @@ routes.post('/', async(req,res) => {
     }
 })
 
+//update a category
+routes.put('/:id', async(req,res) => {
+    try {
+        const {id} = req.params;
+        const value = req.body;
+        const upCategory = await poolCategory.query(
+            'UPDATE category SET name = $1, store_id = $2 WHERE category_id = $3',
+            [value.name,value.store_id,id]);
+        res.json('category was update');
+        console.log('Put API Category success');
+    } catch (err) {
+        console.error(err.message);
+    }
+})
+
 module.exports = routes;
