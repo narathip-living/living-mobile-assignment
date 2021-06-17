@@ -26,4 +26,18 @@ routes.get('/:id', async(req,res) => {
     }
 })
 
+//create a menu
+routes.post('/', async(req,res) => {
+    try {
+        const value = req.body;
+        const newMenu = await poolMenu.query(
+            'INSERT INTO menu (category_id, name, price) VALUES ($1, $2, $3) RETURNING *', 
+            [value.category_id, value.name, value.price]);
+        res.json(newMenu.rows[0]);
+        console.log('Post API menu success');
+    } catch (err) {
+        console.error(err.message);
+    }
+})
+
 module.exports = routes;
