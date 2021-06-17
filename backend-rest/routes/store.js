@@ -40,4 +40,19 @@ routes.post('/', async(req,res) => {
     }
 })
 
+//update a store
+routes.put('/:id', async(req,res) => {
+    try {
+        const {id} = req.params;
+        const value = req.body;
+        const upStore = await poolStore.query(
+            'UPDATE store SET name = $1, description = $2, rating = $3 WHERE store_id = $4',
+            [value.name,value.description,value.rating,id]);
+        res.json('store was update');
+        console.log('Put API store success');
+    } catch (err) {
+        console.error(err.message);
+    }
+})
+
 module.exports = routes;
