@@ -55,4 +55,16 @@ routes.put('/:id', async(req,res) => {
     }
 })
 
+//delete a store
+routes.delete('/:id', async(req,res) => {
+    try {
+        const {id} = req.params;
+        const delStore = await poolStore.query('DELETE FROM store WHERE store_id = $1',[id]);
+        res.json('store was success delete');
+        console.log('Delete API store success');
+    } catch (err) {
+        console.error(err.message);
+    }
+})
+
 module.exports = routes;
