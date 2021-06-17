@@ -55,4 +55,16 @@ routes.put('/:id', async(req,res) => {
     }
 })
 
+//delete a menu
+routes.delete('/:id', async(req,res) => {
+    try {
+        const {id} = req.params;
+        const delMenu = await poolMenu.query('DELETE FROM menu WHERE menu_id = $1',[id]);
+        res.json('menu was success delete');
+        console.log('Delete API menu success');
+    } catch (err) {
+        console.error(err.message);
+    }
+})
+
 module.exports = routes;
