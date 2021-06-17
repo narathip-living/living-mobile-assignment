@@ -14,4 +14,16 @@ routes.get('/', async(req,res) => {
     }
 })
 
+//get a category
+routes.get('/:id', async(req,res) => {
+    try {
+        const {id} = req.params;
+        const category = await poolCategory.query('SELECT * FROM category WHERE category_id = $1',[id]);
+        res.json(category.rows[0]);
+        console.log('Get API category success');
+    } catch (err) {
+        console.error(err.message);
+    }
+})
+
 module.exports = routes;
