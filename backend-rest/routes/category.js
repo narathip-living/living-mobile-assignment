@@ -26,4 +26,18 @@ routes.get('/:id', async(req,res) => {
     }
 })
 
+//create a category
+routes.post('/', async(req,res) => {
+    try {
+        const value = req.body;
+        const newCategory = await poolCategory.query(
+            'INSERT INTO category (name, store_id) VALUES ($1, $2) RETURNING *', 
+            [value.name, value.store_id]);
+        res.json(newCategory.rows[0]);
+        console.log('Post API Category success');
+    } catch (err) {
+        console.error(err.message);
+    }
+})
+
 module.exports = routes;
