@@ -40,4 +40,19 @@ routes.post('/', async(req,res) => {
     }
 })
 
+//update a menu
+routes.put('/:id', async(req,res) => {
+    try {
+        const {id} = req.params;
+        const value = req.body;
+        const upMenu = await poolMenu.query(
+            'UPDATE menu SET category_id = $1, name = $2, price = $3 WHERE menu_id = $4',
+            [value.category_id, value.name, value.price, id]);
+        res.json('menu was update');
+        console.log('Put API menu success');
+    } catch (err) {
+        console.error(err.message);
+    }
+})
+
 module.exports = routes;
