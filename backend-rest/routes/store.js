@@ -7,9 +7,10 @@ const routes = express.Router();
 routes.get('/', async(req,res) => {
     try {
         const allStore = await poolStore.query('SELECT * FROM store');
-        res.json(allStore.rows);
+        res.status(200).json(allStore.rows);
         console.log('Get API all store success');
     } catch (err) {
+        res.status(500).send(err.message);
         console.error(err.message);
     }
 })
@@ -19,9 +20,14 @@ routes.get('/:id', async(req,res) => {
     try {
         const {id} = req.params;
         const store = await poolStore.query('SELECT * FROM store WHERE store_id = $1',[id]);
-        res.json(store.rows[0]);
-        console.log('Get API store success');
+        if (store) {
+            res.status(200).json(store.rows[0]);
+            console.log('Get API store success');
+        } else {
+            res.status(404).send("Store ID does not exists");
+        }
     } catch (err) {
+        res.status(500).send(err.message);
         console.error(err.message);
     }
 })
@@ -33,9 +39,10 @@ routes.post('/', async(req,res) => {
         const newStore = await poolStore.query(
             'INSERT INTO store (name, description, rating) VALUES ($1, $2, $3) RETURNING *', 
             [value.name, value.description, value.rating]);
-        res.json(newStore.rows[0]);
+        res.status(201).json(newStore.rows[0]);
         console.log('Post API store success');
     } catch (err) {
+        res.status(500).send(err.message);
         console.error(err.message);
     }
 })
@@ -48,9 +55,14 @@ routes.put('/:id', async(req,res) => {
         const upStore = await poolStore.query(
             'UPDATE store SET name = $1, description = $2, rating = $3 WHERE store_id = $4',
             [value.name,value.description,value.rating,id]);
-        res.json('store was update');
-        console.log('Put API store success');
+        if (upStore) {
+            res.status(200).json('store was update');
+            console.log('Put API store success');
+        } else {
+            res.status(404).send("Store ID does not exists");
+        }
     } catch (err) {
+        res.status(500).send(err.message);
         console.error(err.message);
     }
 })
@@ -60,9 +72,14 @@ routes.delete('/:id', async(req,res) => {
     try {
         const {id} = req.params;
         const delStore = await poolStore.query('DELETE FROM store WHERE store_id = $1',[id]);
-        res.json('store was success delete');
-        console.log('Delete API store success');
+        if (delStore) {
+            res.status(204).json('store was success delete');
+            console.log('Delete API store success');
+        } else {
+            res.status(404).send("Store ID does not exists");
+        }
     } catch (err) {
+        res.status(500).send(err.message);
         console.error(err.message);
     }
 })
