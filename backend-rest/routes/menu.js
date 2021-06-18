@@ -20,8 +20,12 @@ routes.get('/:id', async(req,res) => {
     try {
         const {id} = req.params;
         const menu = await poolMenu.query('SELECT * FROM menu WHERE menu_id = $1',[id]);
-        res.status(200).json(menu.rows[0]);
-        console.log('Get API menu success');
+        if (menu) {
+            res.status(200).json(menu.rows[0]);
+            console.log('Get API menu success');
+        } else {
+            res.status(404).send("Menu ID does not exists");
+        }
     } catch (err) {
         res.status(500).send(err.message);
         console.error(err.message);
@@ -51,8 +55,12 @@ routes.put('/:id', async(req,res) => {
         const upMenu = await poolMenu.query(
             'UPDATE menu SET category_id = $1, name = $2, price = $3 WHERE menu_id = $4',
             [value.category_id, value.name, value.price, id]);
-        res.status(200).json('menu was update');
-        console.log('Put API menu success');
+        if (upMenu) {
+            res.status(200).json('menu was update');
+            console.log('Put API menu success');
+        } else {
+            res.status(404).send("Menu ID does not exists");
+        }
     } catch (err) {
         res.status(500).send(err.message);
         console.error(err.message);
@@ -64,8 +72,12 @@ routes.delete('/:id', async(req,res) => {
     try {
         const {id} = req.params;
         const delMenu = await poolMenu.query('DELETE FROM menu WHERE menu_id = $1',[id]);
-        res.status(204).json('menu was success delete');
+        if (delMenu) {
+            res.status(204).json('menu was success delete');
         console.log('Delete API menu success');
+        } else {
+            res.status(404).send("Menu ID does not exists");
+        }
     } catch (err) {
         res.status(500).send(err.message);
         console.error(err.message);
