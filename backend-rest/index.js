@@ -1,5 +1,7 @@
 const express = require('express');
 const path = require('path');
+const storeRoutes = require('./routes/store');
+const categoryRoutes = require('./routes/category');
 const menuRoutes = require('./routes/menu');
 
 const app = express();
@@ -14,6 +16,8 @@ app.get("/", (req, res) => {
 });
 
 //routes
+app.use('/stores', storeRoutes);
+app.use('/categories', categoryRoutes);
 app.use('/menu', menuRoutes);
 
 app.listen(3000, () => {
