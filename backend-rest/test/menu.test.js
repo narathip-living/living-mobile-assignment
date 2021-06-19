@@ -43,4 +43,12 @@ describe('Menu Endpoints', () => {
         expect(res.statusCode).toEqual(200);
         expect(res.body).toEqual('menu was update');
     });
+
+    it('Delete a Menu', async() => {
+        const id = '6cc24df3-1d38-41a4-8fd3-452630a0db07';
+        const res = await supertest(app).delete(`/menu/${id}`);
+        expect(res.statusCode).toEqual(204);
+        expect(res.body).toEqual('menu was success delete');
+    });
+    
 });

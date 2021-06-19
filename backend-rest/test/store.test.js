@@ -43,4 +43,12 @@ describe('Store Endpoints', () => {
         expect(res.statusCode).toEqual(200);
         expect(res.body).toEqual('store was update');
     });
+
+    it('Delete a Store', async() => {
+        const id = 'e5c4a391-82e0-42de-9ca9-3f4353342220';
+        const res = await supertest(app).delete(`/stores/${id}`);
+        expect(res.statusCode).toEqual(204);
+        expect(res.body).toEqual('store was success delete');
+    });
+
 });
