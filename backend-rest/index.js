@@ -1,5 +1,7 @@
 const express = require('express');
 const path = require('path');
+const port = process.env.PORT || '3000';
+
 const storeRoutes = require('./routes/store');
 const categoryRoutes = require('./routes/category');
 const menuRoutes = require('./routes/menu');
@@ -20,6 +22,9 @@ app.use('/stores', storeRoutes);
 app.use('/categories', categoryRoutes);
 app.use('/menu', menuRoutes);
 
-app.listen(3000, () => {
-    console.log('server is listening on port 3000');
+app.listen(port, (err) => {
+    if (err) console.error('Unable to connect the server: ', err);
+    console.log(`server is listening on port ${port}`);
 });
+
+module.exports = app;
