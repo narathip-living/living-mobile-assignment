@@ -3,6 +3,20 @@ const app = require('../index');
 
 describe('Menu Endpoints', () => {
 
+    it('Post a Menu', async() => {
+        const res = await supertest(app)
+            .post('/menu')
+            .send({
+                category_id: "1c1ec3dc-bd97-42a4-8253-ae611ede1790",
+                name: "มะตะบะไก่",
+                price: 40
+            });
+        expect(res.statusCode).toEqual(201);
+        expect(res.body).toHaveProperty('category_id', '1c1ec3dc-bd97-42a4-8253-ae611ede1790');
+        expect(res.body).toHaveProperty('name', 'มะตะบะไก่');
+        expect(res.body).toHaveProperty('price', 40);
+    });
+
     it('Get All Menu', async() => {
         const res = await supertest(app).get('/menu');
         expect(res.statusCode).toEqual(200);

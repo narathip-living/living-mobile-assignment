@@ -3,6 +3,18 @@ const app = require('../index');
 
 describe('Category Endpoints', () => {
 
+    it('Post a Category', async() => {
+        const res = await supertest(app)
+            .post('/categories')
+            .send({
+                name: "โรตีไข่",
+                store_id: "e5c4a391-82e0-42de-9ca9-3f4353342220"
+            });
+        expect(res.statusCode).toEqual(201);
+        expect(res.body).toHaveProperty('name', "โรตีไข่");
+        expect(res.body).toHaveProperty('store_id', "e5c4a391-82e0-42de-9ca9-3f4353342220");
+    });
+
     it('Get All Category', async() => {
         const res = await supertest(app).get('/categories');
         expect(res.statusCode).toEqual(200);
