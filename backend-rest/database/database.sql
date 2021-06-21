@@ -1,3 +1,7 @@
+docker run --name postgres --rm -e POSTGRES_PASSWORD=postgres -d -p 5432:5432 postgres
+
+psql -U postgres -h localhost
+
 CREATE DATABASE store_database;
 
 --\c store_database

@@ -1,5 +1,5 @@
 const express = require('express');
-const poolCategory = require('../db');
+const poolCategory = require('../database/db');
 
 const routes = express.Router();
 
